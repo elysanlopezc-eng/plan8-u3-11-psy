@@ -1,0 +1,614 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Colegio Montano - Interactive Lesson Plan: Unit 3 Synthesis & Final Portfolio</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome CDN for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Custom Tailwind Configuration matching Montano Palette -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        montano: {
+                            blue: '#1269A8',
+                            yellow: '#F7D615',
+                            sage: '#54887D',
+                            lightblue: '#88B5C7',
+                            olive: '#A6B046',
+                            bg: '#F2F5E9'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Segoe UI', 'Tahoma', 'Geneva', 'Verdana', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .tab-content {
+            display: none;
+            animation: fadeIn 0.3s ease-in-out forwards;
+        }
+        .tab-content.active {
+            display: block;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(6px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #F2F5E9;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #54887D;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #1269A8;
+        }
+    </style>
+</head>
+<body class="bg-montano-bg text-gray-800 font-sans min-h-screen flex flex-col justify-between">
+
+    <!-- HEADER / NAVIGATION BAR -->
+    <header class="bg-montano-blue text-white shadow-lg sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 py-3 flex flex-wrap items-center justify-between gap-4">
+            <!-- Branding & Logo -->
+            <div class="flex items-center space-x-3">
+                <div class="bg-white p-1 rounded-lg shadow-sm flex items-center justify-center">
+                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQyEop0yf6lZ7Jk9MILZxF1rBj4Oqs5esyhIQ&s" 
+                         alt="Colegio Montano Logo" 
+                         class="h-10 w-auto object-contain"
+                         onerror="this.src='https://placehold.co/100x40/1269A8/FFFFFF?text=Montano'">
+                </div>
+                <div>
+                    <h1 class="text-xl font-bold leading-tight tracking-wide">COLEGIO MONTANO</h1>
+                    <p class="text-xs text-montano-yellow font-medium uppercase tracking-wider">Digital Interactive Board • Class Plan #8 (Unit Closure)</p>
+                </div>
+            </div>
+
+            <!-- Header Info Badges -->
+            <div class="hidden lg:flex items-center space-x-4 text-xs font-medium">
+                <span class="bg-montano-sage px-3 py-1.5 rounded-full shadow-inner">
+                    <i class="fa-solid fa-book-open mr-1.5"></i> Psychology
+                </span>
+                <span class="bg-montano-sage px-3 py-1.5 rounded-full shadow-inner">
+                    <i class="fa-solid fa-graduation-cap mr-1.5"></i> 4th Bachillerato
+                </span>
+                <span class="bg-montano-sage px-3 py-1.5 rounded-full shadow-inner">
+                    <i class="fa-solid fa-calendar-day mr-1.5"></i> Unit 3 | Plan #8 | July 26 - 30
+                </span>
+                <span class="bg-montano-sage px-3 py-1.5 rounded-full shadow-inner">
+                    <i class="fa-solid fa-user-tie mr-1.5"></i> Teacher: Elysa López
+                </span>
+            </div>
+
+            <!-- Fullscreen Button -->
+            <div>
+                <button onclick="toggleFullScreen()" id="fullscreen-btn" 
+                        class="bg-montano-yellow text-montano-blue hover:bg-yellow-400 font-bold px-4 py-2 rounded-lg shadow-md transition duration-200 flex items-center space-x-2 text-sm focus:outline-none focus:ring-2 focus:ring-yellow-300">
+                    <i class="fa-solid fa-expand" id="fullscreen-icon"></i>
+                    <span id="fullscreen-text">Full Screen</span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- METADATA & INSTITUTIONAL PEDAGOGICAL BANNER -->
+    <section class="max-w-7xl mx-auto px-4 mt-6 w-full">
+        <div class="bg-white border-l-4 border-montano-blue rounded-r-xl shadow-md p-5 grid grid-cols-1 md:grid-cols-3 gap-6">
+            <!-- CNB & Competency -->
+            <div class="space-y-2">
+                <div class="flex items-center text-montano-blue font-bold text-sm uppercase">
+                    <i class="fa-solid fa-bullseye mr-2 text-montano-sage"></i> CNB Competency & Learning Outcome
+                </div>
+                <p class="text-xs text-gray-700 leading-relaxed">
+                    <strong class="text-montano-blue">Competency:</strong> Integrates major psychological theories of personality, psychometric assessment principles, socio-cultural contexts, and ethical anti-stigma standards into a coherent unit synthesis.
+                </p>
+                <p class="text-xs text-gray-700 leading-relaxed">
+                    <strong class="text-montano-sage">Learning Outcome:</strong> Assembles a comprehensive Unit 3 Portfolio, evaluates peer work using structured criteria, and articulates personal metacognitive growth.
+                </p>
+            </div>
+
+            <!-- Montano 7 Habits -->
+            <div class="space-y-2">
+                <div class="flex items-center text-montano-blue font-bold text-sm uppercase">
+                    <i class="fa-solid fa-star mr-2 text-montano-yellow"></i> Montano Formative Habits
+                </div>
+                <ul class="text-xs text-gray-700 space-y-1 list-disc list-inside">
+                    <li><strong class="text-montano-sage">Habit 2: Begin with the End in Mind</strong> (Consolidate learning into a finalized academic portfolio).</li>
+                    <li><strong class="text-montano-sage">Habit 6: Synergize</strong> (Engage in peer assessment and collaborative review).</li>
+                    <li><strong class="text-montano-sage">Habit 7: Sharpen the Saw</strong> (Reflect deeply on corrected misconceptions and personal growth).</li>
+                </ul>
+            </div>
+
+            <!-- Core Skills & Assessment Moments -->
+            <div class="space-y-2">
+                <div class="flex items-center text-montano-blue font-bold text-sm uppercase">
+                    <i class="fa-solid fa-brain mr-2 text-montano-olive"></i> Key Skills & Assessment
+                </div>
+                <div class="text-xs text-gray-700 space-y-1">
+                    <p><strong>Core Skills:</strong> Theoretical Synthesis, Peer Assessment, Metacognition, Portfolio Assembly.</p>
+                    <p><strong>Evaluation Moments:</strong></p>
+                    <div class="flex flex-wrap gap-1 mt-1">
+                        <span class="bg-blue-100 text-montano-blue text-[10px] px-2 py-0.5 rounded font-semibold">Initial: Concept Map Retrieval</span>
+                        <span class="bg-emerald-100 text-montano-sage text-[10px] px-2 py-0.5 rounded font-semibold">Formative: Peer Checklist</span>
+                        <span class="bg-amber-100 text-montano-olive text-[10px] px-2 py-0.5 rounded font-semibold">Summative: Portfolio Rubric</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- MAIN INTERACTIVE BOARD CONTAINER -->
+    <main class="max-w-7xl mx-auto px-4 py-6 w-full flex-grow">
+        <div class="bg-white rounded-2xl shadow-xl border border-gray-200 overflow-hidden flex flex-col min-h-[550px]">
+            
+            <!-- TABS NAVIGATION BAR -->
+            <div class="bg-gray-100 border-b border-gray-200 flex flex-wrap sm:flex-nowrap justify-between overflow-x-auto p-2 gap-2">
+                <button onclick="switchTab('tab1')" id="btn-tab1" 
+                        class="tab-btn flex-1 py-3 px-4 rounded-xl text-xs sm:text-sm font-bold flex items-center justify-center space-x-2 transition-all duration-200 bg-montano-blue text-white shadow-md">
+                    <i class="fa-solid fa-network-wired text-montano-yellow"></i>
+                    <span>Tab I: Unit Retrieval & Concept Mapping (10 min)</span>
+                </button>
+                <button onclick="switchTab('tab2')" id="btn-tab2" 
+                        class="tab-btn flex-1 py-3 px-4 rounded-xl text-xs sm:text-sm font-bold flex items-center justify-center space-x-2 transition-all duration-200 bg-gray-200 text-gray-700 hover:bg-gray-300">
+                    <i class="fa-solid fa-layer-group text-montano-sage"></i>
+                    <span>Tab II: 4-Theory Case Comparison (15 min)</span>
+                </button>
+                <button onclick="switchTab('tab3')" id="btn-tab3" 
+                        class="tab-btn flex-1 py-3 px-4 rounded-xl text-xs sm:text-sm font-bold flex items-center justify-center space-x-2 transition-all duration-200 bg-gray-200 text-gray-700 hover:bg-gray-300">
+                    <i class="fa-solid fa-folder-open text-montano-blue"></i>
+                    <span>Tab III: Portfolio & Peer Checklist (20 min)</span>
+                </button>
+                <button onclick="switchTab('tab4')" id="btn-tab4" 
+                        class="tab-btn flex-1 py-3 px-4 rounded-xl text-xs sm:text-sm font-bold flex items-center justify-center space-x-2 transition-all duration-200 bg-gray-200 text-gray-700 hover:bg-gray-300">
+                    <i class="fa-solid fa-award text-montano-olive"></i>
+                    <span>Tab IV: Reflection, Exit Ticket & Rubric (15 min)</span>
+                </button>
+            </div>
+
+            <!-- TAB CONTENT AREA -->
+            <div class="p-6 flex-grow bg-slate-50">
+                
+                <!-- TAB I: UNIT RETRIEVAL & CONCEPT MAPPING -->
+                <div id="tab1" class="tab-content active space-y-6">
+                    <!-- Phase Banner -->
+                    <div class="flex items-center justify-between border-b pb-3 border-gray-200">
+                        <div class="flex items-center space-x-3">
+                            <span class="bg-montano-yellow text-montano-blue font-extrabold px-3 py-1 rounded-lg text-sm">Phase 1</span>
+                            <h2 class="text-lg font-bold text-montano-blue">Unit 3 Retrieval Game & Master Concept Mapping</h2>
+                        </div>
+                        <span class="text-xs font-semibold bg-gray-200 text-gray-700 px-3 py-1 rounded-full"><i class="fa-regular fa-clock mr-1"></i> Time: ~10 Minutes</span>
+                    </div>
+
+                    <!-- Interactive Concept Map Overview -->
+                    <div class="bg-white p-5 rounded-xl border border-gray-200 shadow-sm space-y-4">
+                        <h3 class="font-bold text-montano-blue flex items-center text-base">
+                            <i class="fa-solid fa-sitemap mr-2 text-montano-sage"></i> Master Concept Architecture (Unit 3: Understanding Personality)
+                        </h3>
+                        <p class="text-xs text-gray-700 leading-relaxed">
+                            Click each node below to review how the four major threads of Unit 3 connect into a comprehensive understanding of human individuality.
+                        </p>
+
+                        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 text-xs">
+                            <!-- Node 1 -->
+                            <button onclick="toggleAccordion('node-1')" class="bg-sky-50 border border-sky-300 p-3.5 rounded-xl text-left hover:bg-sky-100 transition space-y-1">
+                                <div class="flex items-center justify-between">
+                                    <span class="font-bold text-montano-blue text-sm">1. Foundational Concepts</span>
+                                    <i class="fa-solid fa-circle-chevron-down text-montano-blue"></i>
+                                </div>
+                                <p class="text-[11px] text-gray-600">Personality, Temperament (Nature), Character (Nurture).</p>
+                                <div id="node-1" class="hidden mt-2 pt-2 border-t border-sky-200 text-[11px] text-sky-950 space-y-1">
+                                    <p><strong>Plans 1 & 3:</strong> Temperament is innate/biological; Character is built through moral choice; Personality is the overarching pattern.</p>
+                                </div>
+                            </button>
+
+                            <!-- Node 2 -->
+                            <button onclick="toggleAccordion('node-2')" class="bg-purple-50 border border-purple-300 p-3.5 rounded-xl text-left hover:bg-purple-100 transition space-y-1">
+                                <div class="flex items-center justify-between">
+                                    <span class="font-bold text-purple-900 text-sm">2. Four Major Theories</span>
+                                    <i class="fa-solid fa-circle-chevron-down text-purple-900"></i>
+                                </div>
+                                <p class="text-[11px] text-gray-600">Psychodynamic, Trait, Humanistic, Social-Cognitive.</p>
+                                <div id="node-2" class="hidden mt-2 pt-2 border-t border-purple-200 text-[11px] text-purple-950 space-y-1">
+                                    <p><strong>Plans 2, 4, 5:</strong> Unconscious conflict (Freud), Big Five OCEAN dimensions, Self-Actualization (Rogers/Maslow), Reciprocal Determinism (Bandura).</p>
+                                </div>
+                            </button>
+
+                            <!-- Node 3 -->
+                            <button onclick="toggleAccordion('node-3')" class="bg-emerald-50 border border-emerald-300 p-3.5 rounded-xl text-left hover:bg-emerald-100 transition space-y-1">
+                                <div class="flex items-center justify-between">
+                                    <span class="font-bold text-montano-sage text-sm">3. Context & Assessment</span>
+                                    <i class="fa-solid fa-circle-chevron-down text-montano-sage"></i>
+                                </div>
+                                <p class="text-[11px] text-gray-600">Culture, Reliability, Validity, Response Bias.</p>
+                                <div id="node-3" class="hidden mt-2 pt-2 border-t border-emerald-200 text-[11px] text-emerald-950 space-y-1">
+                                    <p><strong>Plan 6:</strong> Context alters behavior; psychometric tools require test-retest reliability and construct validity; online quizzes lack scientific rigor.</p>
+                                </div>
+                            </button>
+
+                            <!-- Node 4 -->
+                            <button onclick="toggleAccordion('node-4')" class="bg-amber-50 border border-amber-300 p-3.5 rounded-xl text-left hover:bg-amber-100 transition space-y-1">
+                                <div class="flex items-center justify-between">
+                                    <span class="font-bold text-amber-900 text-sm">4. Ethics & Disorders</span>
+                                    <i class="fa-solid fa-circle-chevron-down text-amber-900"></i>
+                                </div>
+                                <p class="text-[11px] text-gray-600">Distress, Impairment, Non-Diagnostic Ethics.</p>
+                                <div id="node-4" class="hidden mt-2 pt-2 border-t border-amber-200 text-[11px] text-amber-950 space-y-1">
+                                    <p><strong>Plan 7:</strong> Clinical disorders require enduring impairment/distress; formal diagnosis requires licensed professionals; no armchair labeling.</p>
+                                </div>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- TAB II: 4-THEORY CASE COMPARISON -->
+                <div id="tab2" class="tab-content space-y-6">
+                    <!-- Phase Banner -->
+                    <div class="flex items-center justify-between border-b pb-3 border-gray-200">
+                        <div class="flex items-center space-x-3">
+                            <span class="bg-montano-sage text-white font-extrabold px-3 py-1 rounded-lg text-sm">Phase 2</span>
+                            <h2 class="text-lg font-bold text-montano-blue">4-Perspective Fictional Case Synthesis</h2>
+                        </div>
+                        <span class="text-xs font-semibold bg-gray-200 text-gray-700 px-3 py-1 rounded-full"><i class="fa-regular fa-clock mr-1"></i> Time: ~15 Minutes</span>
+                    </div>
+
+                    <div class="bg-white p-5 rounded-xl border border-gray-200 shadow-sm space-y-4">
+                        <p class="text-xs text-gray-700 leading-relaxed">
+                            Analyze how all four major paradigms explain the <strong>same student behavioral vignette</strong>. Review each accordion for key theoretical explanations.
+                        </p>
+
+                        <!-- Fictional Case Box -->
+                        <div class="border border-gray-200 rounded-xl p-4 bg-montano-bg space-y-3">
+                            <span class="bg-montano-blue text-white text-xs px-2.5 py-1 rounded-md font-bold uppercase">Master Fictional Vignette: Sofia</span>
+                            <p class="text-xs text-gray-800 font-medium leading-relaxed">
+                                "Sofia is a high-achieving student who sets extremely ambitious goals. She feels intense anxiety whenever her grades drop below 95%, works late into the night, seeks constant reassurance from teachers, and observed her mother manage stress through rigorous organization."
+                            </p>
+
+                            <!-- 4 Perspective Grid -->
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-3 text-xs pt-2">
+                                <!-- Perspective 1: Psychodynamic -->
+                                <div class="bg-purple-50 border border-purple-200 p-3.5 rounded-xl space-y-2">
+                                    <span class="font-bold text-purple-900 block flex items-center">
+                                        <i class="fa-solid fa-water mr-1.5 text-purple-700"></i> 1. Psychodynamic Lens (Freud)
+                                    </span>
+                                    <p class="text-gray-700">Explains behavior through an overly harsh <strong>Superego</strong> instilling unconscious guilt and defense mechanisms (reaction formation/perfectionism) to manage anxiety.</p>
+                                    <button onclick="toggleAccordion('acc-syn-1')" class="bg-purple-700 text-white text-[10px] font-bold px-2.5 py-1 rounded">View Key Term</button>
+                                    <div id="acc-syn-1" class="hidden text-[11px] text-purple-950 mt-1 bg-white p-2 rounded border border-purple-200">
+                                        Key Focus: Unconscious anxiety & rigid Superego standards.
+                                    </div>
+                                </div>
+
+                                <!-- Perspective 2: Trait -->
+                                <div class="bg-sky-50 border border-sky-200 p-3.5 rounded-xl space-y-2">
+                                    <span class="font-bold text-sky-900 block flex items-center">
+                                        <i class="fa-solid fa-sliders mr-1.5 text-sky-700"></i> 2. Trait Model Lens (Big Five OCEAN)
+                                    </span>
+                                    <p class="text-gray-700">Describes Sofia's position on continuous dimensions: <strong>High Conscientiousness</strong> (ambitious, dutiful) paired with <strong>High Neuroticism</strong> (anxious about grade drops).</p>
+                                    <button onclick="toggleAccordion('acc-syn-2')" class="bg-sky-700 text-white text-[10px] font-bold px-2.5 py-1 rounded">View Key Term</button>
+                                    <div id="acc-syn-2" class="hidden text-[11px] text-sky-950 mt-1 bg-white p-2 rounded border border-sky-200">
+                                        Key Focus: Stable dimensional trait scores (High C, High N).
+                                    </div>
+                                </div>
+
+                                <!-- Perspective 3: Humanistic -->
+                                <div class="bg-emerald-50 border border-emerald-200 p-3.5 rounded-xl space-y-2">
+                                    <span class="font-bold text-emerald-900 block flex items-center">
+                                        <i class="fa-solid fa-seedling mr-1.5 text-emerald-700"></i> 3. Humanistic Lens (Rogers / Maslow)
+                                    </span>
+                                    <p class="text-gray-700">Identifies <strong>incongruence</strong> between Sofia's Real Self and Ideal Self, driven by conditional worth (believing acceptance requires top academic scores).</p>
+                                    <button onclick="toggleAccordion('acc-syn-3')" class="bg-emerald-700 text-white text-[10px] font-bold px-2.5 py-1 rounded">View Key Term</button>
+                                    <div id="acc-syn-3" class="hidden text-[11px] text-emerald-950 mt-1 bg-white p-2 rounded border border-emerald-200">
+                                        Key Focus: Incongruence & desire for Unconditional Positive Regard.
+                                    </div>
+                                </div>
+
+                                <!-- Perspective 4: Social-Cognitive -->
+                                <div class="bg-amber-50 border border-amber-200 p-3.5 rounded-xl space-y-2">
+                                    <span class="font-bold text-amber-900 block flex items-center">
+                                        <i class="fa-solid fa-people-arrows mr-1.5 text-amber-700"></i> 4. Social-Cognitive Lens (Bandura)
+                                    </span>
+                                    <p class="text-gray-700">Highlights <strong>observational learning</strong> (modeling her mother's organizational habits) and <strong>reciprocal determinism</strong> (teacher praise reinforcing reassurance-seeking behavior).</p>
+                                    <button onclick="toggleAccordion('acc-syn-4')" class="bg-amber-700 text-white text-[10px] font-bold px-2.5 py-1 rounded">View Key Term</button>
+                                    <div id="acc-syn-4" class="hidden text-[11px] text-amber-950 mt-1 bg-white p-2 rounded border border-amber-200">
+                                        Key Focus: Modeling, teacher reinforcement & outcome expectations.
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+                <!-- TAB III: PORTFOLIO COMPLETION & PEER CHECKLIST -->
+                <div id="tab3" class="tab-content space-y-6">
+                    <!-- Phase Banner -->
+                    <div class="flex items-center justify-between border-b pb-3 border-gray-200">
+                        <div class="flex items-center space-x-3">
+                            <span class="bg-montano-blue text-white font-extrabold px-3 py-1 rounded-lg text-sm">Phase 3</span>
+                            <h2 class="text-lg font-bold text-montano-blue">Unit 3 Portfolio Completion & Interactive Peer Checklist</h2>
+                        </div>
+                        <span class="text-xs font-semibold bg-gray-200 text-gray-700 px-3 py-1 rounded-full"><i class="fa-regular fa-clock mr-1"></i> Time: ~20 Minutes</span>
+                    </div>
+
+                    <div class="bg-white p-5 rounded-xl border border-gray-200 shadow-sm space-y-4">
+                        <!-- Step 1: Portfolio Structure Review (5 min) -->
+                        <div class="bg-sky-50 border-l-4 border-montano-blue p-4 rounded-r-lg text-xs text-gray-700 space-y-2">
+                            <h4 class="font-bold text-montano-blue text-sm flex items-center">
+                                <i class="fa-solid fa-folder-closed mr-2"></i> 1. Unit 3 Portfolio Component Checklist (Montano Habit 2)
+                            </h4>
+                            <p>Verify that your digital folder or physical binder contains all three required major unit artifacts:</p>
+                            <div class="grid grid-cols-1 md:grid-cols-3 gap-2 pt-1 font-medium">
+                                <div class="bg-white p-2 rounded border border-sky-200 flex items-center space-x-2">
+                                    <i class="fa-solid fa-check text-emerald-600"></i>
+                                    <span><strong>Activity 1:</strong> Historical Typology Matrix (Hippocrates & Jung)</span>
+                                </div>
+                                <div class="bg-white p-2 rounded border border-sky-200 flex items-center space-x-2">
+                                    <i class="fa-solid fa-check text-emerald-600"></i>
+                                    <span><strong>Activity 2:</strong> Multi-Paradigm Comparison Table</span>
+                                </div>
+                                <div class="bg-white p-2 rounded border border-sky-200 flex items-center space-x-2">
+                                    <i class="fa-solid fa-check text-emerald-600"></i>
+                                    <span><strong>Activity 3:</strong> Assessment Tool Critique & Case Analysis</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Step 2: Peer Review & Checklist (15 min) -->
+                        <div class="space-y-3">
+                            <h4 class="font-bold text-montano-blue text-sm flex items-center">
+                                <i class="fa-solid fa-user-check mr-2 text-montano-sage"></i> 2. Peer Evaluation Workshop (15 mins)
+                            </h4>
+                            <p class="text-xs text-gray-700">
+                                Switch portfolios with a peer partner. Review their work using the interactive checklist below:
+                            </p>
+
+                            <div class="bg-montano-bg border border-gray-200 rounded-xl p-4 space-y-3 text-xs">
+                                <span class="font-bold text-montano-blue block uppercase text-[11px]">Interactive Peer Evaluation Checklist</span>
+                                
+                                <div class="space-y-2">
+                                    <label class="flex items-start space-x-2.5 bg-white p-2.5 rounded-lg border border-gray-200 cursor-pointer hover:bg-slate-50">
+                                        <input type="checkbox" class="w-4 h-4 mt-0.5 accent-montano-blue">
+                                        <span><strong>Completeness:</strong> All 3 required Activities (1, 2, and 3) are fully answered without blank sections.</span>
+                                    </label>
+
+                                    <label class="flex items-start space-x-2.5 bg-white p-2.5 rounded-lg border border-gray-200 cursor-pointer hover:bg-slate-50">
+                                        <input type="checkbox" class="w-4 h-4 mt-0.5 accent-montano-blue">
+                                        <span><strong>Psychometric Accuracy:</strong> The Activity 3 tool critique correctly identifies reliability, validity, and social desirability bias.</span>
+                                    </label>
+
+                                    <label class="flex items-start space-x-2.5 bg-white p-2.5 rounded-lg border border-gray-200 cursor-pointer hover:bg-slate-50">
+                                        <input type="checkbox" class="w-4 h-4 mt-0.5 accent-montano-blue">
+                                        <span><strong>Ethical Language:</strong> All case analyses strictly avoid armchair diagnosing real people and use respectful anti-stigma terms.</span>
+                                    </label>
+
+                                    <label class="flex items-start space-x-2.5 bg-white p-2.5 rounded-lg border border-gray-200 cursor-pointer hover:bg-slate-50">
+                                        <input type="checkbox" class="w-4 h-4 mt-0.5 accent-montano-blue">
+                                        <span><strong>Theoretical Depth:</strong> Explanations accurately distinguish Trait, Psychodynamic, Humanistic, and Social-Cognitive concepts.</span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- TAB IV: REFLECTION, EXIT TICKET & RUBRIC -->
+                <div id="tab4" class="tab-content space-y-6">
+                    <!-- Phase Banner -->
+                    <div class="flex items-center justify-between border-b pb-3 border-gray-200">
+                        <div class="flex items-center space-x-3">
+                            <span class="bg-montano-olive text-white font-extrabold px-3 py-1 rounded-lg text-sm">Phase 4</span>
+                            <h2 class="text-lg font-bold text-montano-blue">Individual Learning Reflection, Dual Exit Ticket & Final Rubric</h2>
+                        </div>
+                        <span class="text-xs font-semibold bg-gray-200 text-gray-700 px-3 py-1 rounded-full"><i class="fa-regular fa-clock mr-1"></i> Time: ~15 Minutes</span>
+                    </div>
+
+                    <!-- Step 1: Individual Learning Reflection (10 min) -->
+                    <div class="bg-white p-5 rounded-xl border border-gray-200 shadow-sm space-y-3">
+                        <h3 class="font-bold text-montano-blue flex items-center text-base">
+                            <i class="fa-solid fa-brain-circuit mr-2 text-montano-sage"></i> 1. Individual Metacognitive Reflection (10 mins)
+                        </h3>
+                        <p class="text-xs text-gray-700 leading-relaxed">
+                            Take 10 minutes to reflect individually in your portfolio summary page. Consider how your understanding of human personality has evolved from Plan 1 to Plan 8.
+                        </p>
+                    </div>
+
+                    <!-- Step 2: Exit Ticket (5 min) -->
+                    <div class="bg-montano-bg border-l-4 border-montano-olive p-4 rounded-r-xl space-y-2">
+                        <h4 class="font-bold text-sm text-montano-blue flex items-center">
+                            <i class="fa-solid fa-right-from-bracket mr-2 text-montano-yellow"></i> 2. Final Unit 3 Dual Exit Ticket (5 mins)
+                        </h4>
+                        <p class="text-xs text-gray-700">
+                            On your final exit card, write down:
+                        </p>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-2 text-xs pt-1">
+                            <div class="bg-white p-3 rounded-lg border border-gray-200 font-semibold text-montano-blue">
+                                <i class="fa-solid fa-lightbulb text-montano-yellow mr-1.5"></i> 1 Key Concept I Mastered in Unit 3:
+                                <p class="text-[11px] font-normal text-gray-600 mt-1">E.g., "The distinction between continuous Big Five OCEAN trait spectrums and rigid historical typologies."</p>
+                            </div>
+                            <div class="bg-white p-3 rounded-lg border border-gray-200 font-semibold text-montano-sage">
+                                <i class="fa-solid fa-wrench text-montano-sage mr-1.5"></i> 1 Misconception I Corrected:
+                                <p class="text-[11px] font-normal text-gray-600 mt-1">E.g., "I used to think online personality quizzes were scientifically valid, but now I know they lack test-retest reliability."</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Interactive Plenary Trivia -->
+                    <div class="bg-white p-5 rounded-xl border border-gray-200 shadow-sm space-y-4">
+                        <h3 class="font-bold text-montano-blue flex items-center text-base">
+                            <i class="fa-solid fa-gamepad mr-2 text-montano-yellow"></i> Interactive Unit 3 Final Trivia
+                        </h3>
+                        <div class="bg-montano-bg p-4 rounded-xl border border-gray-300 space-y-3">
+                            <p class="font-bold text-sm text-gray-800">
+                                Question: What is the primary purpose of integrating multiple psychological theories (Psychodynamic, Trait, Humanistic, Social-Cognitive) when studying personality?
+                            </p>
+                            <div class="grid grid-cols-1 sm:grid-cols-3 gap-2" id="trivia-options-p8">
+                                <button onclick="checkAnswerP8(this, false)" class="bg-white border border-gray-300 p-2 rounded-lg text-xs font-semibold text-gray-700 hover:bg-gray-100 transition">A) To prove that Freud was 100% correct about everything</button>
+                                <button onclick="checkAnswerP8(this, true)" class="bg-white border border-gray-300 p-2 rounded-lg text-xs font-semibold text-gray-700 hover:bg-gray-100 transition">B) To gain a comprehensive, multi-dimensional view of human complexity</button>
+                                <button onclick="checkAnswerP8(this, false)" class="bg-white border border-gray-300 p-2 rounded-lg text-xs font-semibold text-gray-700 hover:bg-gray-100 transition">C) To diagnose peers using quick observational shortcuts</button>
+                            </div>
+                            <div id="trivia-feedback-p8" class="hidden text-xs font-bold mt-2"></div>
+                        </div>
+                    </div>
+
+                    <!-- Final Unit 3 Summative Portfolio Rubric -->
+                    <div class="bg-white p-5 rounded-xl border border-gray-200 shadow-sm space-y-4">
+                        <div class="flex items-center justify-between">
+                            <h3 class="font-bold text-montano-blue flex items-center text-base">
+                                <i class="fa-solid fa-award mr-2 text-montano-sage"></i> Master Unit 3 Portfolio Summative Rubric
+                            </h3>
+                            <span class="text-xs bg-montano-yellow text-montano-blue font-bold px-2.5 py-1 rounded">Final Unit Assessment</span>
+                        </div>
+
+                        <div class="overflow-x-auto">
+                            <table class="w-full text-left text-xs border-collapse">
+                                <thead>
+                                    <tr class="bg-montano-blue text-white">
+                                        <th class="p-2.5 rounded-tl-lg">Portfolio Dimension</th>
+                                        <th class="p-2.5">Excellent (4 pts)</th>
+                                        <th class="p-2.5">Satisfactory (3 pts)</th>
+                                        <th class="p-2.5">Needs Work (2 pts)</th>
+                                        <th class="p-2.5 rounded-tr-lg">Check</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="divide-y divide-gray-200 text-gray-700">
+                                    <tr class="hover:bg-gray-50">
+                                        <td class="p-2.5 font-bold">1. Portfolio Completeness</td>
+                                        <td class="p-2.5">Includes Activities 1, 2, 3, reflections, and exit slips completely formatted.</td>
+                                        <td class="p-2.5">All 3 activities included with minor missing components.</td>
+                                        <td class="p-2.5">Missing 1 or more major activities.</td>
+                                        <td class="p-2.5 text-center"><input type="checkbox" class="w-4 h-4 accent-montano-blue"></td>
+                                    </tr>
+                                    <tr class="hover:bg-gray-50">
+                                        <td class="p-2.5 font-bold">2. Theoretical Synthesis</td>
+                                        <td class="p-2.5">Flawlessly compares all 4 paradigms in case analysis with high precision.</td>
+                                        <td class="p-2.5">Compares paradigms accurately with minor conceptual gaps.</td>
+                                        <td class="p-2.5">Confuses core theoretical models.</td>
+                                        <td class="p-2.5 text-center"><input type="checkbox" class="w-4 h-4 accent-montano-blue"></td>
+                                    </tr>
+                                    <tr class="hover:bg-gray-50">
+                                        <td class="p-2.5 font-bold">3. Psychometric & Ethical Literacy</td>
+                                        <td class="p-2.5">Demonstrates deep mastery of testing validity, context, and anti-stigma rules.</td>
+                                        <td class="p-2.5">Explains validity and anti-stigma rules with minor prompting.</td>
+                                        <td class="p-2.5">Lacks understanding of test limitations or ethical boundaries.</td>
+                                        <td class="p-2.5 text-center"><input type="checkbox" class="w-4 h-4 accent-montano-blue"></td>
+                                    </tr>
+                                    <tr class="hover:bg-gray-50">
+                                        <td class="p-2.5 font-bold">4. Metacognition & Reflection</td>
+                                        <td class="p-2.5">Exit ticket clearly articulates a learned concept and a corrected misconception.</td>
+                                        <td class="p-2.5">Completes exit ticket with basic reflection.</td>
+                                        <td class="p-2.5">Incomplete or vague reflection response.</td>
+                                        <td class="p-2.5 text-center"><input type="checkbox" class="w-4 h-4 accent-montano-blue"></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="bg-montano-blue text-white py-3 text-center text-xs font-medium">
+        <p>Colegio Montano • Plan #8 (Unit 3 Final Synthesis) • Psychology • Aligned with CNB Guatemala</p>
+    </footer>
+
+    <!-- SCRIPT LOGIC -->
+    <script>
+        function switchTab(tabId) {
+            const contents = document.querySelectorAll('.tab-content');
+            contents.forEach(content => content.classList.remove('active'));
+
+            const buttons = document.querySelectorAll('.tab-btn');
+            buttons.forEach(btn => {
+                btn.classList.remove('bg-montano-blue', 'text-white', 'shadow-md');
+                btn.classList.add('bg-gray-200', 'text-gray-700');
+            });
+
+            const activeTab = document.getElementById(tabId);
+            if (activeTab) activeTab.classList.add('active');
+
+            const activeBtn = document.getElementById('btn-' + tabId);
+            if (activeBtn) {
+                activeBtn.classList.remove('bg-gray-200', 'text-gray-700');
+                activeBtn.classList.add('bg-montano-blue', 'text-white', 'shadow-md');
+            }
+        }
+
+        function toggleAccordion(id) {
+            const acc = document.getElementById(id);
+            if (acc) {
+                acc.classList.toggle('hidden');
+            }
+        }
+
+        function checkAnswerP8(button, isCorrect) {
+            const feedback = document.getElementById('trivia-feedback-p8');
+            const buttons = document.querySelectorAll('#trivia-options-p8 button');
+            
+            buttons.forEach(btn => {
+                btn.classList.remove('bg-emerald-200', 'bg-rose-200', 'text-emerald-900', 'text-rose-900');
+            });
+
+            feedback.classList.remove('hidden', 'text-emerald-700', 'text-rose-700');
+
+            if (isCorrect) {
+                button.classList.add('bg-emerald-200', 'text-emerald-900');
+                feedback.classList.add('text-emerald-700');
+                feedback.innerHTML = '<i class="fa-solid fa-circle-check mr-1"></i> Correct! Combining multiple theoretical paradigms gives us a comprehensive, nuanced understanding of human personality.';
+            } else {
+                button.classList.add('bg-rose-200', 'text-rose-900');
+                feedback.classList.add('text-rose-700');
+                feedback.innerHTML = '<i class="fa-solid fa-circle-xmark mr-1"></i> Incorrect. We combine multiple paradigms to capture the full multi-dimensional complexity of human personality.';
+            }
+        }
+
+        function toggleFullScreen() {
+            const btnText = document.getElementById('fullscreen-text');
+            const btnIcon = document.getElementById('fullscreen-icon');
+
+            if (!document.fullscreenElement) {
+                document.documentElement.requestFullscreen().then(() => {
+                    if (btnText) btnText.textContent = "Exit Fullscreen";
+                    if (btnIcon) btnIcon.className = "fa-solid fa-compress";
+                }).catch(err => {
+                    console.error(`Error attempting to enable full-screen mode: ${err.message}`);
+                });
+            } else {
+                if (document.exitFullscreen) {
+                    document.exitFullscreen().then(() => {
+                        if (btnText) btnText.textContent = "Full Screen";
+                        if (btnIcon) btnIcon.className = "fa-solid fa-expand";
+                    });
+                }
+            }
+        }
+    </script>
+</body>
+</html>
+```
+
+***
+
+### Summary of Complete Unit 3 Sequence Generated:
+1. **Plan 1 (May 24th):** *Understanding Personality* (Personality, Temperament, Character, Nature vs. Nurture).
+2. **Plan 2 (May 31st – Jun 4th):** *Historical Temperament Theories* (Hippocrates' 4 Humors & Carl Jung's Psychological Types).
+3. **Plan 3 (Jun 7th – Jun 11th):** *Personality Concepts and Historical Typologies Consolidation* (Ethical non-labeling & Activity 1 submission).
+4. **Plan 4 (Jun 14th – Jun 18th):** *Psychodynamic and Humanistic Approaches* (Freud's Id/Ego/Superego vs. Rogers/Maslow's Self-Concept).
+5. **Plan 5 (July):** *Trait, Behavioral, Social-Cognitive & Biological Approaches* (Big Five OCEAN, Bandura's Reciprocal Determinism, Non-deterministic Biology & Activity 2).
+6. **Plan 6 (Jul 12th – Jul 16th):** *Culture, Context, and Personality Assessment* (Context influences, Reliability, Validity, Bias & Activity 3 Kickoff).
+7. **Plan 7 (Jul 19th – Jul 23rd):** *Personality Disorders and Responsible Case Analysis* (Professional diagnostic boundaries, Anti-stigma, Non-diagnostic Case Analysis).
+8. **Plan 8 (Jul 26th – Jul 30th):** *Unit Synthesis and Final Portfolio* (Master 4-Lens Case Analysis, Peer Review, Dual Exit Ticket & Unit 3 Final Portfolio Rubric).
